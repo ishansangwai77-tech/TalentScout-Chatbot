@@ -1,0 +1,11 @@
+# TalentScout Hiring Assistant - Dependencies
+# Python 3.8+ required
+
+# Streamlit - Frontend framework
+streamlit>=1.28.0
+
+# Groq - Fast LLM inference (Llama 3)
+groq>=0.4.0
+
+# Environment variable management
+python-dotenv>=1.0.0
