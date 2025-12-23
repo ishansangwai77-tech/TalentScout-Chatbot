@@ -25,174 +25,274 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for modern, professional styling
+# Custom CSS for glassmorphism and liquid effects
 st.markdown("""
 <style>
+    /* Import Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    
     /* Main theme colors */
     :root {
-        --primary-color: #6366f1;
-        --secondary-color: #8b5cf6;
-        --accent-color: #06b6d4;
-        --bg-dark: #0f172a;
-        --bg-card: #1e293b;
-        --text-primary: #f1f5f9;
-        --text-secondary: #94a3b8;
-        --success: #10b981;
-        --warning: #f59e0b;
+        --primary: #667eea;
+        --secondary: #764ba2;
+        --accent: #f093fb;
+        --neon-blue: #00d4ff;
+        --neon-pink: #ff006e;
+        --neon-purple: #8338ec;
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
     }
     
-    /* Global styles */
+    /* Animated gradient background */
     .stApp {
-        background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+        background: linear-gradient(-45deg, #0a0a1a, #1a0a2e, #0d1b2a, #1b263b, #0a0a1a);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        font-family: 'Inter', sans-serif;
     }
     
-    /* Header styling */
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    /* Floating orbs effect */
+    .stApp::before {
+        content: '';
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: 
+            radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(0, 212, 255, 0.1) 0%, transparent 40%);
+        animation: floatOrbs 20s ease-in-out infinite;
+        z-index: -1;
+    }
+    
+    @keyframes floatOrbs {
+        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+        33% { transform: translate(30px, -30px) rotate(120deg); }
+        66% { transform: translate(-20px, 20px) rotate(240deg); }
+    }
+    
+    /* Header with glow effect */
     .main-header {
         text-align: center;
         padding: 2rem 0;
-        background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4);
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        font-size: 2.5rem;
-        font-weight: 800;
-        margin-bottom: 0.5rem;
+        text-shadow: 0 0 40px rgba(102, 126, 234, 0.5);
+        animation: glowPulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes glowPulse {
+        0%, 100% { filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.3)); }
+        50% { filter: drop-shadow(0 0 40px rgba(240, 147, 251, 0.5)); }
     }
     
     .tagline {
         text-align: center;
-        color: #94a3b8;
-        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.2rem;
+        font-weight: 300;
+        letter-spacing: 2px;
         margin-bottom: 2rem;
     }
     
-    /* Chat container */
-    .chat-container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 1rem;
+    /* Glassmorphism cards */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
     
-    /* Message bubbles */
+    /* Chat messages with glass effect */
     .stChatMessage {
-        background: rgba(30, 41, 59, 0.8) !important;
-        border-radius: 16px !important;
-        border: 1px solid rgba(99, 102, 241, 0.2) !important;
-        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border-radius: 20px !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
         margin-bottom: 1rem;
+        transition: all 0.3s ease;
     }
     
-    /* User message */
+    .stChatMessage:hover {
+        border-color: rgba(102, 126, 234, 0.3) !important;
+        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.15) !important;
+        transform: translateY(-2px);
+    }
+    
     [data-testid="stChatMessageContent"] {
-        color: #f1f5f9 !important;
+        color: rgba(255, 255, 255, 0.95) !important;
     }
     
-    /* Input field */
+    /* Chat input with neon glow */
     .stChatInputContainer {
-        background: rgba(30, 41, 59, 0.9) !important;
-        border: 1px solid rgba(99, 102, 241, 0.3) !important;
-        border-radius: 12px !important;
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(20px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 16px !important;
+        transition: all 0.3s ease;
+    }
+    
+    .stChatInputContainer:focus-within {
+        border-color: rgba(102, 126, 234, 0.5) !important;
+        box-shadow: 0 0 30px rgba(102, 126, 234, 0.3) !important;
     }
     
     .stChatInputContainer input {
-        color: #f1f5f9 !important;
+        color: white !important;
     }
     
-    /* Sidebar styling */
+    /* Sidebar with glass effect */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important;
-        border-right: 1px solid rgba(99, 102, 241, 0.2);
+        background: rgba(10, 10, 26, 0.8) !important;
+        backdrop-filter: blur(30px) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.05);
     }
     
     [data-testid="stSidebar"] .stMarkdown {
-        color: #f1f5f9;
+        color: rgba(255, 255, 255, 0.9);
     }
     
-    /* Status card */
-    .status-card {
-        background: rgba(30, 41, 59, 0.8);
-        border-radius: 12px;
-        padding: 1rem;
-        border: 1px solid rgba(99, 102, 241, 0.2);
-        margin-bottom: 1rem;
-    }
-    
-    .status-title {
-        color: #06b6d4;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-    
-    .status-value {
-        color: #f1f5f9;
-        font-size: 0.9rem;
-    }
-    
-    /* Phase indicator */
+    /* Phase badges with glow */
     .phase-badge {
         display: inline-block;
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.8rem;
+        padding: 0.4rem 1rem;
+        border-radius: 25px;
+        font-size: 0.85rem;
         font-weight: 600;
         text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
     
-    .phase-greeting { background: #6366f1; color: white; }
-    .phase-info { background: #8b5cf6; color: white; }
-    .phase-tech { background: #06b6d4; color: white; }
-    .phase-questions { background: #f59e0b; color: white; }
-    .phase-conclusion { background: #10b981; color: white; }
+    .phase-greeting { 
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+    }
+    .phase-info { 
+        background: linear-gradient(135deg, #764ba2, #f093fb);
+        color: white;
+        box-shadow: 0 4px 20px rgba(118, 75, 162, 0.4);
+    }
+    .phase-tech { 
+        background: linear-gradient(135deg, #00d4ff, #667eea);
+        color: white;
+        box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+    }
+    .phase-questions { 
+        background: linear-gradient(135deg, #f093fb, #ff006e);
+        color: white;
+        box-shadow: 0 4px 20px rgba(240, 147, 251, 0.4);
+    }
+    .phase-conclusion { 
+        background: linear-gradient(135deg, #00d4ff, #00ff88);
+        color: #0a0a1a;
+        box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+    }
     
-    /* Button styling */
+    /* Liquid button effect */
     .stButton button {
-        background: linear-gradient(90deg, #6366f1, #8b5cf6) !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%) !important;
+        background-size: 200% 200% !important;
         color: white !important;
         border: none !important;
-        border-radius: 8px !important;
-        padding: 0.5rem 1.5rem !important;
+        border-radius: 16px !important;
+        padding: 0.8rem 2rem !important;
         font-weight: 600 !important;
-        transition: all 0.3s ease !important;
+        font-size: 1rem !important;
+        letter-spacing: 1px !important;
+        transition: all 0.4s ease !important;
+        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4) !important;
     }
     
     .stButton button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4) !important;
+        background-position: 100% 0 !important;
+        transform: translateY(-4px) scale(1.02) !important;
+        box-shadow: 0 15px 40px rgba(240, 147, 251, 0.5) !important;
     }
     
-    /* Privacy notice */
-    .privacy-notice {
-        background: rgba(6, 182, 212, 0.1);
-        border: 1px solid rgba(6, 182, 212, 0.3);
-        border-radius: 8px;
-        padding: 0.75rem;
-        font-size: 0.8rem;
-        color: #94a3b8;
+    /* Animated border for containers */
+    @keyframes borderGlow {
+        0%, 100% { border-color: rgba(102, 126, 234, 0.3); }
+        50% { border-color: rgba(240, 147, 251, 0.5); }
     }
     
-    /* Footer */
+    /* Step cards with hover animation */
+    .step-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .step-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        border-color: rgba(102, 126, 234, 0.5);
+        box-shadow: 0 20px 50px rgba(102, 126, 234, 0.2);
+    }
+    
+    /* Smooth fade-in animation */
+    @keyframes fadeInUp {
+        from { 
+            opacity: 0; 
+            transform: translateY(30px); 
+        }
+        to { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+    }
+    
+    .animate-in {
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
+    
+    /* Footer styling */
     .footer {
         text-align: center;
-        color: #64748b;
+        color: rgba(255, 255, 255, 0.4);
         font-size: 0.8rem;
         padding: 2rem 0;
         margin-top: 2rem;
-    }
-    
-    /* Animations */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .animate-fade-in {
-        animation: fadeIn 0.5s ease-out;
     }
     
     /* Hide Streamlit branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.02);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #667eea, #764ba2);
+        border-radius: 4px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
