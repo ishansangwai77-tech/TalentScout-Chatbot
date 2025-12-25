@@ -1,10 +1,14 @@
 # 🎯 TalentScout Hiring Assistant
 
-An intelligent AI-powered chatbot for initial candidate screening, built with Streamlit and Google Gemini.
+An intelligent AI-powered chatbot for initial candidate screening, built with Streamlit and Groq (Llama 3.3-70B).
 
-![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red.svg)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Click_Here-brightgreen?style=for-the-badge)](https://talentscout-chatbot00.streamlit.app/)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red.svg)](https://streamlit.io)
+[![Groq](https://img.shields.io/badge/LLM-Llama_3.3--70B-purple.svg)](https://groq.com)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+> **🔗 Live Demo:** [https://talentscout-chatbot00.streamlit.app/](https://talentscout-chatbot00.streamlit.app/)
 
 ---
 
@@ -104,14 +108,14 @@ An intelligent AI-powered chatbot for initial candidate screening, built with St
 ### Prerequisites
 
 - Python 3.8 or higher
-- Google Gemini API key ([Get one free](https://makersuite.google.com/app/apikey))
+- Groq API key ([Get one free](https://console.groq.com))
 
 ### Step-by-Step Setup
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/talentscout-chatbot.git
-   cd talentscout-chatbot
+   git clone https://github.com/ishansangwai77-tech/TalentScout-Chatbot.git
+   cd TalentScout-Chatbot
    ```
 
 2. **Create virtual environment**
@@ -135,13 +139,13 @@ An intelligent AI-powered chatbot for initial candidate screening, built with St
    # Copy the example file
    cp .env.example .env
    
-   # Edit .env and add your API key
-   GOOGLE_API_KEY=your_actual_api_key_here
+   # Edit .env and add your Groq API key
+   GROQ_API_KEY=your_groq_api_key_here
    ```
 
 5. **Run the application**
    ```bash
-   streamlit run app.py
+   streamlit run streamlit_app.py
    ```
 
 6. **Open in browser**
